@@ -21,7 +21,7 @@
 <input type = submit value = "logout">
 </form>
 <table>
-	<tr>
+	<tr>  
 		<td align="center" bgcolor = "<%=bar%>">상품관련 자료</td>
 	</tr>
 	<tr>
