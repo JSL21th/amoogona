@@ -134,5 +134,7 @@ public class ShopBookDBBean {
 			if(conn != null) try { conn.close(); } catch(Exception e) { e.printStackTrace(); }
 		}
 		return bookList;
-	} 
+	}
+	
+	//ㅎㅎ
 }
