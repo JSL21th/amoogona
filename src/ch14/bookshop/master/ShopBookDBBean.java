@@ -85,4 +85,27 @@ public class ShopBookDBBean {
 			if (conn != null) try{conn.close();}catch(Exception e){e.printStackTrace();}
 		}
 	}
+	
+	public List<ShopBookDataBean> getBooks(String book_kind) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ShopBookDataBean> bookList=null;
+		
+		try{
+			conn=getConnection();
+			String sql1 = "select * from book";
+			String sql2 = "select * from book where book_kind=? order by reg_date desc";
+			if(book_kind.equals("all")){
+				pstmt = conn.prepareStatement(sql1);
+			}else{
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setString(1, book_kind);
+			}
+			rs = pstmt.executeQuery();
+		}catch(Exception e ){
+			e.printStackTrace();
+		}
+		return bookList;
+	}
 }
