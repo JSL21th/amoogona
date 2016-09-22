@@ -123,7 +123,7 @@ public class ShopBookDBBean {
 					book.setReg_date(rs.getTimestamp(11));
 					
 					bookList.add(book);
-					
+					 
 				} while(rs.next());
 			}
 		} catch(Exception e) {
@@ -136,5 +136,4 @@ public class ShopBookDBBean {
 		return bookList;
 	}
 	
-	//ㅎㅎddd
 }
