@@ -135,5 +135,27 @@ public class ShopBookDBBean {
 		}
 		return bookList;
 	}
-	
+	public int getBookCount() throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int x = 0;
+		
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement("select count(*) from book");
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				x = rs.getInt(1);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) try { rs.close(); } catch(Exception e) { e.printStackTrace(); }
+			if(pstmt != null) try { pstmt.close(); } catch(Exception e) { e.printStackTrace(); }
+			if(conn != null) try { conn.close(); } catch(Exception e) { e.printStackTrace(); }
+		}
+		return x;
+	}
 }
