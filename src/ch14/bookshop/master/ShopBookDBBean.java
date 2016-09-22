@@ -85,6 +85,7 @@ public class ShopBookDBBean {
 			if (conn != null) try{conn.close();}catch(Exception e){e.printStackTrace();}
 		}
 	}
+<<<<<<< HEAD
 	
 	public List<ShopBookDataBean> getBooks(String book_kind) throws Exception {
 		Connection conn = null;
@@ -107,5 +108,78 @@ public class ShopBookDBBean {
 			e.printStackTrace();
 		}
 		return bookList;
+=======
+	// 분류별 또는 전체 등록된 책의 정보를 얻어내는 메소드
+	public List<ShopBookDataBean> getBooks(String book_kind) throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<ShopBookDataBean> bookList = null;
+		
+		try {
+			conn = getConnection();
+			String sql1 = "select * from book";
+			String sql2 = "select * from book where book_kind = ? order by reg_date desc";
+			if(book_kind.equals("all"))
+				pstmt = conn.prepareStatement(sql1);
+			else {
+				pstmt = conn.prepareStatement(sql2);
+				pstmt.setString(1, book_kind);
+			}
+			
+			rs = pstmt.executeQuery();
+	
+			if(rs.next()){
+				bookList = new ArrayList<ShopBookDataBean>();
+				do {
+					ShopBookDataBean book = new ShopBookDataBean();
+					book.setBook_id(rs.getInt(1));
+					book.setBook_kind(rs.getString(2));
+					book.setBook_title(rs.getString(3));
+					book.setBook_price(rs.getInt(4));
+					book.setBook_count(rs.getShort(5));
+					book.setAuthor(rs.getString(6));
+					book.setPublishing_com(rs.getString(6));
+					book.setPublishing_date(rs.getString(7));
+					book.setBook_image(rs.getString(8));
+					//book.setBook_content(rs.getString(9));
+					book.setDiscount_rate(rs.getByte(10));
+					book.setReg_date(rs.getTimestamp(11));
+					
+					bookList.add(book);
+					 
+				} while(rs.next());
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) try { rs.close(); } catch(Exception e) { e.printStackTrace(); }
+			if(pstmt != null) try { pstmt.close(); } catch(Exception e) { e.printStackTrace(); }
+			if(conn != null) try { conn.close(); } catch(Exception e) { e.printStackTrace(); }
+		}
+		return bookList;
+	}
+	public int getBookCount() throws Exception {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int x = 0;
+		
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement("select count(*) from book");
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				x = rs.getInt(1);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) try { rs.close(); } catch(Exception e) { e.printStackTrace(); }
+			if(pstmt != null) try { pstmt.close(); } catch(Exception e) { e.printStackTrace(); }
+			if(conn != null) try { conn.close(); } catch(Exception e) { e.printStackTrace(); }
+		}
+		return x;
 	}
 }
